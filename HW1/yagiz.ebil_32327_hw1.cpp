@@ -12,6 +12,7 @@
 
 using namespace std;
 
+// Kadir Yagiz Ebil - 32327
 
 void nested_dissection(int left, int right, vector<int>& ordering) {
     if (left >= right) return;

@@ -1,4 +1,4 @@
-# CS406 HW1 Report
+# CS406 HW1 Report Kadir Yağız Ebil
 
 ## Introduction
 
@@ -270,3 +270,5 @@ Prefetching was not possbile due to restrictions to modify. New orderings could 
 There are other orderings for sparse matrix rather then RCM. In the source code there are some implementations for further analysis of this possibilites. However, neither **Block**, **Nested Dissection** or **RABBIT** worked as well as RCM. 
 
 There is a possible development for RCM, which introduces priority queue. **RCM2** shows that implementation of RCM. Which in my case didn't go as planned. Resulted with 2.5 secs which is higher than expected. This may be caused beacuse of lack of implementation and research time.
+
+Kadir Yağız Ebil - 32327
