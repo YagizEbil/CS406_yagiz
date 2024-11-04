@@ -1,0 +1,3 @@
+In this HW, there are three simple codes to parallelize. You will use OpenMP to parallelize all and run them with 1, 2, 4, 8 threads. Prepare a detailed report (in pdf, only in pdf) containing the final/intermediate  versions/implementations, the optimizations you did, their impacts, timings, etc. You are allowed to rewrite all the code blocks - but all the optimizations need to be timed (so they may be implemented in parallel). Do not change the data initialization parts since they are not important. That is the knowledge of the values in the inputs should not be used in the optimization. 
+
+Put all the cpp files inside a folder names as YourName_YourSurname_YourID. Compress the folder and create a zip file (not rar, not 7z) and submit it. 
