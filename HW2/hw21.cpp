@@ -1,4 +1,5 @@
 #include <iostream>
+#include <omp.h>
 using namespace std;
 const int N = 40;
 int main(int argc, char** argv) {
@@ -20,16 +21,33 @@ int main(int argc, char** argv) {
 
     //TODO: parallelize this  -----------------------------------------------------------------------
     //Report timings with 1,2,4,8 threads - Copy paste your code to the report and explain the details for your parallelization 
-    for(int i = 0; i < N; i++) {
-        for(int j = 0; j < N; j++) {
-            for(int k = 0; k < N; k++) {
-                for(int x = 0; x < N; x++) {
-                    for(int y = 0; y < N; y++) {
-                        for(int z = 0; z < N; z++) {
-                            matrix[i][x] += cube[i][x][k] * cube2[z][y][j];
-                            matrix2[y][z] += cube[z][k][x] * cube2[y][j][i];
+    #pragma omp parallel
+    {
+        float local_matrix[N][N] = {0};
+        float local_matrix2[N][N] = {0};
+
+        #pragma omp for collapse(3)
+        for(int i = 0; i < N; i++) {
+            for(int j = 0; j < N; j++) {
+                for(int k = 0; k < N; k++) {
+                    for(int x = 0; x < N; x++) {
+                        for(int y = 0; y < N; y++) {                            
+                            for(int z = 0; z < N; z++) {
+                                local_matrix[i][x] += cube[i][x][k] * cube2[z][y][j];
+                                local_matrix2[y][z] += cube[z][k][x] * cube2[y][j][i];
+                            }
                         }
                     }
+                }
+            }
+        }
+
+        #pragma omp critical
+        {
+            for(int i = 0; i < N; i++) {
+                for(int j = 0; j < N; j++) {
+                    matrix[i][j] += local_matrix[i][j];
+                    matrix2[i][j] += local_matrix2[i][j];
                 }
             }
         }
