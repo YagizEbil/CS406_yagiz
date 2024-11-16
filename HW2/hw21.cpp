@@ -21,12 +21,12 @@ int main(int argc, char** argv) {
 
     //TODO: parallelize this  -----------------------------------------------------------------------
     //Report timings with 1,2,4,8 threads - Copy paste your code to the report and explain the details for your parallelization 
-    #pragma omp parallel
+    #pragma omp parallel reduction(+:matrix[:N][:N], matrix2[:N][:N])
     {
         float local_matrix[N][N] = {0};
         float local_matrix2[N][N] = {0};
 
-        #pragma omp for collapse(3)
+        #pragma omp for collapse(3) schedule(dynamic)
         for(int i = 0; i < N; i++) {
             for(int j = 0; j < N; j++) {
                 for(int k = 0; k < N; k++) {
@@ -42,7 +42,6 @@ int main(int argc, char** argv) {
             }
         }
 
-        #pragma omp critical
         {
             for(int i = 0; i < N; i++) {
                 for(int j = 0; j < N; j++) {
