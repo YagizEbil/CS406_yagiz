@@ -1,4 +1,5 @@
 #include <iostream>
+#include <omp.h>
 using namespace std;
 
 const int N = 10000;
@@ -17,9 +18,13 @@ int main(int argc, char** argv) {
 
     //TODO: parallelize B = A + Atranspose  -----------------------------------------------------------------------
     //Report timings with 1,2,4,8 threads - Copy paste your code to the report and explain the details 
+    #pragma omp parallel for collapse(2) schedule(static)
     for(int i = 0; i < N; i++) {
-        for(int j = 0; j < N; j++) {
+        for(int j = 0; j < N; j += 4) {
             B[i * N + j] = A[i * N + j] + A[j * N + i];
+            if (j + 1 < N) B[i * N + j + 1] = A[i * N + j + 1] + A[j * N + i + 1];
+            if (j + 2 < N) B[i * N + j + 2] = A[i * N + j + 2] + A[j * N + i + 2];
+            if (j + 3 < N) B[i * N + j + 3] = A[i * N + j + 3] + A[j * N + i + 3];
         }
     }
     
@@ -32,6 +37,10 @@ int main(int argc, char** argv) {
         }
     }
     cout << sum1 << " " << sum2 << endl;
+
+    //memory leak?
+    delete[] A;
+    delete[] B;
 
     return 0;
 }
